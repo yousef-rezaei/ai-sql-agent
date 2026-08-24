@@ -8,6 +8,12 @@ venv/
 # Environment variables / secrets
 .env
 backend/.env
+.env
+backend/.env
+.venv/
+backend/.venv/
+__pycache__/
+*.pyc
 
 # Testing
 .pytest_cache/
