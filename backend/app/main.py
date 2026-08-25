@@ -2,6 +2,10 @@ from fastapi import FastAPI
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
+from app.db.schema import (
+    get_database_schema,
+    get_schema_context,
+)
 from app.db.connection import engine
 
 
@@ -84,3 +88,16 @@ def get_products():
             "status": "error",
             "detail": str(exc),
         }
+
+@app.get("/schema")
+def database_schema():
+    return get_database_schema()
+
+# @app.get("/schema/context")
+# def schema_context():
+#     return get_schema_context()
+@app.get("/schema/context")
+def schema_context():
+    return {
+        "schema": get_schema_context()
+    }
