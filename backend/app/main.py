@@ -7,6 +7,11 @@ from app.db.schema import (
     get_database_schema,
     get_schema_context,
 )
+from app.db.executor import (
+    QueryExecutionError,
+    execute_readonly_query,
+)
+from app.security.sql_validator import validate_sql
 from app.db.connection import engine
 from app.ai.sql_agent import generate_sql
 from app.models.query import QueryRequest
@@ -95,9 +100,7 @@ def get_products():
 def database_schema():
     return get_database_schema()
 
-# @app.get("/schema/context")
-# def schema_context():
-#     return get_schema_context()
+
 @app.get("/schema/context")
 def schema_context():
     return {
@@ -120,6 +123,60 @@ def sql_preview(request: QueryRequest):
             "sql": result["sql"],
             "purpose": result["purpose"],
         }
+
+    except RuntimeError as exc:
+
+        raise HTTPException(
+            status_code=503,
+            detail=str(exc),
+        )
+
+
+@app.post("/ai/query")
+def execute_ai_query(request: QueryRequest):
+
+    try:
+        generated = generate_sql(
+            request.question
+        )
+
+        validation = validate_sql(
+            generated["sql"]
+        )
+
+        if not validation.is_valid:
+            raise HTTPException(
+                status_code=400,
+                detail={
+                    "message": "Generated SQL failed validation.",
+                    "reason": validation.error,
+                    "sql": generated["sql"],
+                },
+            )
+
+        result = execute_readonly_query(
+            validation.sql
+        )
+
+        return {
+            "question": request.question,
+            "status": "success",
+            "sql": validation.sql,
+            "purpose": generated["purpose"],
+            "columns": result["columns"],
+            "rows": result["rows"],
+            "row_count": result["row_count"],
+        }
+
+    except QueryExecutionError as exc:
+
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "message": "Database query execution failed.",
+                "reason": str(exc),
+            },
+        )
 
     except RuntimeError as exc:
 
