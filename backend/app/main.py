@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi import HTTPException
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -7,7 +8,8 @@ from app.db.schema import (
     get_schema_context,
 )
 from app.db.connection import engine
-
+from app.ai.sql_agent import generate_sql
+from app.models.query import QueryRequest
 
 app = FastAPI(
     title="AI SQL Agent API",
@@ -101,3 +103,27 @@ def schema_context():
     return {
         "schema": get_schema_context()
     }
+
+
+@app.post("/ai/sql-preview")
+def sql_preview(request: QueryRequest):
+
+    try:
+
+        result = generate_sql(
+            request.question
+        )
+
+        return {
+            "question": request.question,
+            "status": "pending_validation",
+            "sql": result["sql"],
+            "purpose": result["purpose"],
+        }
+
+    except RuntimeError as exc:
+
+        raise HTTPException(
+            status_code=503,
+            detail=str(exc),
+        )
