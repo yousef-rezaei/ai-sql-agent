@@ -22,18 +22,28 @@ export async function askSqlAgent(
     }
   );
 
-  if (!response.ok) {
+if (!response.ok) {
+  const contentType =
+    response.headers.get("content-type") ?? "";
+
+  let message = `Request failed with status ${response.status}`;
+
+  if (contentType.includes("application/json")) {
     const errorBody = await response.json();
 
-    const message =
-      typeof errorBody.detail === "string"
-        ? errorBody.detail
-        : JSON.stringify(errorBody.detail);
+    if (typeof errorBody.detail === "string") {
+      message = errorBody.detail;
+    }
+  } else {
+    const text = await response.text();
 
-    throw new Error(
-      message || "Request failed"
-    );
+    if (text) {
+      message = `${message}: ${text.slice(0, 200)}`;
+    }
   }
+
+  throw new Error(message);
+}
 
   return response.json();
 }
