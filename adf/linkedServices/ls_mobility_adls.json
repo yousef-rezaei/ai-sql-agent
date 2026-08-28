@@ -1,0 +1,6 @@
+﻿{
+  "type": "AzureBlobFS",
+  "typeProperties": {
+    "url": "https://yousefmobilitydl2026.dfs.core.windows.net"
+  }
+}

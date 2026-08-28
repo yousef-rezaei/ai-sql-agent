@@ -1,0 +1,15 @@
+﻿{
+  "linkedServiceName": {
+    "referenceName": "ls_mobility_adls",
+    "type": "LinkedServiceReference"
+  },
+  "type": "Binary",
+  "typeProperties": {
+    "location": {
+      "type": "AzureBlobFSLocation",
+      "fileSystem": "raw",
+      "folderPath": "gtfs",
+      "fileName": "luxembourg-gtfs.zip"
+    }
+  }
+}

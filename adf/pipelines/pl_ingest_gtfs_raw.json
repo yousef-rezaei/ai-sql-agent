@@ -1,0 +1,50 @@
+﻿{
+  "activities": [
+    {
+      "name": "Copy_GTFS_Zip_To_Raw",
+      "type": "Copy",
+      "dependsOn": [],
+      "policy": {
+        "timeout": "0.12:00:00",
+        "retry": 2,
+        "retryIntervalInSeconds": 30,
+        "secureOutput": false,
+        "secureInput": false
+      },
+      "typeProperties": {
+        "source": {
+          "type": "BinarySource",
+          "storeSettings": {
+            "type": "HttpReadSettings",
+            "requestMethod": "GET",
+            "httpRequestTimeout": "00:05:00"
+          }
+        },
+        "sink": {
+          "type": "BinarySink",
+          "storeSettings": {
+            "type": "AzureBlobFSWriteSettings"
+          }
+        },
+        "enableStaging": false
+      },
+      "inputs": [
+        {
+          "referenceName": "ds_gtfs_http_zip",
+          "type": "DatasetReference"
+        }
+      ],
+      "outputs": [
+        {
+          "referenceName": "ds_gtfs_raw_zip",
+          "type": "DatasetReference"
+        }
+      ]
+    }
+  ],
+  "annotations": [
+    "mobility",
+    "gtfs",
+    "raw-ingestion"
+  ]
+}

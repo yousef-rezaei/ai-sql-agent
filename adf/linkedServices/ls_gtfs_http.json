@@ -1,0 +1,7 @@
+﻿{
+  "type": "HttpServer",
+  "typeProperties": {
+    "url": "https://download.data.public.lu/",
+    "authenticationType": "Anonymous"
+  }
+}

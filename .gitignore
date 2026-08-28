@@ -31,3 +31,6 @@ dist/
 # OS
 .DS_Store
 Thumbs.db
+# Local GTFS datasets
+data/gtfs/*.zip
+data/gtfs/current/

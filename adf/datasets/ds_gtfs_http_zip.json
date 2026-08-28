@@ -1,0 +1,13 @@
+﻿{
+  "linkedServiceName": {
+    "referenceName": "ls_gtfs_http",
+    "type": "LinkedServiceReference"
+  },
+  "type": "Binary",
+  "typeProperties": {
+    "location": {
+      "type": "HttpServerLocation",
+      "relativeUrl": "resources/horaires-et-arrets-des-transport-publics-gtfs/20260821-055311/gtfs-20260819-20261212.zip"
+    }
+  }
+}
