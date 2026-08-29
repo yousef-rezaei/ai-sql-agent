@@ -1,0 +1,14 @@
+﻿{
+  "linkedServiceName": {
+    "referenceName": "ls_mobility_adls",
+    "type": "LinkedServiceReference"
+  },
+  "type": "Binary",
+  "typeProperties": {
+    "location": {
+      "type": "AzureBlobFSLocation",
+      "fileSystem": "staging",
+      "folderPath": "gtfs/current"
+    }
+  }
+}

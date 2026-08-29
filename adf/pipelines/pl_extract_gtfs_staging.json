@@ -1,0 +1,56 @@
+﻿{
+  "activities": [
+    {
+      "name": "Extract_GTFS_To_Staging",
+      "type": "Copy",
+      "dependsOn": [],
+      "policy": {
+        "timeout": "0.12:00:00",
+        "retry": 2,
+        "retryIntervalInSeconds": 30,
+        "secureOutput": false,
+        "secureInput": false
+      },
+      "typeProperties": {
+        "source": {
+          "type": "BinarySource",
+          "storeSettings": {
+            "type": "AzureBlobFSReadSettings",
+            "recursive": false
+          },
+          "formatSettings": {
+            "type": "BinaryReadSettings",
+            "compressionProperties": {
+              "type": "ZipDeflateReadSettings",
+              "preserveZipFileNameAsFolder": false
+            }
+          }
+        },
+        "sink": {
+          "type": "BinarySink",
+          "storeSettings": {
+            "type": "AzureBlobFSWriteSettings"
+          }
+        }
+      },
+      "inputs": [
+        {
+          "referenceName": "ds_gtfs_raw_zip_compressed",
+          "type": "DatasetReference"
+        }
+      ],
+      "outputs": [
+        {
+          "referenceName": "ds_gtfs_staging_files",
+          "type": "DatasetReference"
+        }
+      ]
+    }
+  ],
+  "annotations": [
+    "mobility",
+    "gtfs",
+    "staging",
+    "decompression"
+  ]
+}
