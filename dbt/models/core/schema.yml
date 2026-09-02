@@ -1,0 +1,65 @@
+version: 2
+
+models:
+  - name: dim_station
+    columns:
+      - name: station_id
+        data_tests:
+          - not_null
+          - unique
+
+      - name: station_name
+        data_tests:
+          - not_null
+
+      - name: latitude
+        data_tests:
+          - not_null
+
+      - name: longitude
+        data_tests:
+          - not_null
+
+  - name: dim_route
+    columns:
+      - name: route_id
+        data_tests:
+          - not_null
+          - unique
+
+  - name: fact_trip
+    columns:
+      - name: trip_id
+        data_tests:
+          - not_null
+          - unique
+
+      - name: route_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_route')
+                field: route_id
+
+  - name: fact_stop_time
+    columns:
+      - name: trip_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('fact_trip')
+                field: trip_id
+
+      - name: station_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_station')
+                field: station_id
+
+      - name: stop_sequence
+        data_tests:
+          - not_null

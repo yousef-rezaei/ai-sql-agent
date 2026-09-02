@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: mobility_staging
+    schema: mobility_staging
+
+    tables:
+      - name: stops
+      - name: routes
+      - name: trips
+      - name: stop_times

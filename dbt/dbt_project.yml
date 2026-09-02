@@ -1,0 +1,17 @@
+name: mobility_transform
+version: "1.0.0"
+config-version: 2
+
+profile: mobility_transform
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  mobility_transform:
+    core:
+      +materialized: table

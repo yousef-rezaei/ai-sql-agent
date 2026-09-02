@@ -34,3 +34,8 @@ Thumbs.db
 # Local GTFS datasets
 data/gtfs/*.zip
 data/gtfs/current/
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+dbt/.user.yml
+dbt/profiles.yml
