@@ -61,6 +61,8 @@ Rules:
 - Never generate INSERT, UPDATE, DELETE, DROP, ALTER,
   CREATE, TRUNCATE, GRANT, or REVOKE.
 - Never invent tables or columns.
+- Use schema-qualified table names exactly as provided in DATABASE SCHEMA.
+- For mobility tables, always use the mobility schema prefix.
 - Use the provided foreign-key relationships for joins.
 - Prefer explicit column names instead of SELECT *.
 - Add LIMIT 100 unless the query is an aggregate

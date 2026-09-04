@@ -15,3 +15,5 @@ models:
   mobility_transform:
     core:
       +materialized: table
+      +post-hook:
+        - "grant select on {{ this }} to ai_reader"
